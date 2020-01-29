@@ -6,10 +6,9 @@ let engineerCard = (team) => {
         let name = team[i].getName()
         let id = team[i].getId()
         let email = team[i].getEmail()
-        let github = team[i].getGithub()
 
         if (role === "Engineer") {
-
+            let github = team[i].getGithub()
             engineerCard += `<div class="card mb-4" style="width: 18rem;">
           <div class="card-body">
               <h5 class="card-title">${role}</h5>

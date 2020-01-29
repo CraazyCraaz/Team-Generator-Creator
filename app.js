@@ -8,7 +8,7 @@ const engineerCard = require("./templates/engineer")
 const managerCard = require("./templates/manager")
 const internCard = require("./templates/intern")
 
-
+let middleCard = ""
 const team = []
 let id = 1;
 
@@ -82,16 +82,23 @@ function userInput() {
                     let manager = new Manager(mainAnswer.name, id++, mainAnswer.email, managerInput.officeNumber)
                     team.push(manager)
 
+                    let finalManagerCard = managerCard(team)
+
+                    middleCard += finalManagerCard;
+                    console.log(middleCard);
+
+
+                    fs.writeFile("./output/team.html", firstHalfOfHTML + middleCard + lastHalfOfHTML, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+
                     if (managerInput.quit != "Quit") {
+
                         userInput()
                     } else {
-                        let finalManagerCard = managerCard(team)
 
-                        fs.writeFile("./output/team.html", firstHalfOfHTML + finalManagerCard + lastHalfOfHTML, function (err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                        })
                         return
                     }
                 }).catch(function (err) {
@@ -102,17 +109,22 @@ function userInput() {
                 engineerInfo(mainAnswer).then(function (engineerInput) {
                     let engineer = new Engineer(mainAnswer.name, id++, mainAnswer.email, engineerInput.github)
                     team.push(engineer)
+                    let finalEngineerCard = engineerCard(team)
+
+                    middleCard += finalEngineerCard
+                    console.log(middleCard);
+
+                    fs.writeFile("./output/team.html", firstHalfOfHTML + middleCard + lastHalfOfHTML, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
 
                     if (engineerInput.quit != "Quit") {
+
                         userInput()
                     } else {
-                        let finalEngineerCard = engineerCard(team)
 
-                        fs.writeFile("./output/team.html", firstHalfOfHTML + finalEngineerCard + lastHalfOfHTML, function (err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                        })
                         return
                     }
                 }).catch(function (err) {
@@ -122,25 +134,34 @@ function userInput() {
             }
             else if (mainAnswer.role === "Intern") {
                 internInfo(mainAnswer).then(function (internInput) {
+                    console.log(internInput.school);
+
                     let intern = new Intern(mainAnswer.name, id++, mainAnswer.email, internInput.school)
+                    console.log(intern);
+
                     team.push(intern)
+                    let finalInternCard = internCard(team)
+                    middleCard += finalInternCard;
+                    console.log(middleCard);
+
+                    fs.writeFile("./output/team.html", firstHalfOfHTML + middleCard + lastHalfOfHTML, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
 
                     if (internInput.quit != "Quit") {
                         userInput()
                     } else {
-                        let finalInternCard = internCard(team)
 
-                        fs.writeFile("./output/team.html", firstHalfOfHTML + finalInternCard + lastHalfOfHTML, function (err) {
-                            if (err) {
-                                console.log(err);
-                            }
-                        })
                         return
                     }
                 }).catch(function (err) {
                     console.log(err);
                 })
             }
+
+
         })
         .catch(function (err) {
             console.log(err);
